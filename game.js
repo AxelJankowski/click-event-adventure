@@ -84,16 +84,24 @@ function displayPage(scene, page) {
         // for options here
         optionBox.setInteractive();
         optionBox.on('pointerup', function() {
-        newPage = this.option.nextPage;
-        if(newPage != undefined) {
-            destroyPage();
-            displayPage(scene, fetchPage(newPage))
-        }
+            newPage = this.option.nextPage;
+            if(newPage != undefined) {
+                destroyPage();
+                displayPage(scene, fetchPage(newPage))
+            }
         }, { option });
+        optionBox.on('pointerover', function() {
+            this.optionBox.setStrokeStyle(2, 0xffe014, 1);
+            this.optionText.setColor('#ffe014');
+        }, { optionBox, optionText });
+        optionBox.on('pointerout', function() {
+            this.optionBox.setStrokeStyle(1, 0xb38c03, 1);
+            this.optionText.setColor('#b39c0e');
+        }, { optionBox, optionText });
         
         gameState.options.push({
-        optionBox,
-        optionText
+            optionBox,
+            optionText
         });
     }
 }
