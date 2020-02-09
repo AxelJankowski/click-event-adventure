@@ -17,12 +17,6 @@ function renderCharacter(scene, key) {
     gameState.character.setScale(.7);
 }
 
-function create() {
-    gameState.background = this.add.image(0, 0, 'bg');
-    gameState.background.setOrigin(0, 0);
-    renderCharacter(this, 'knight');
-}
-
 function initializePage(scene) {
     // create options list and background
     // and saves them into gameState
@@ -88,9 +82,29 @@ function displayPage(scene, page) {
 
         // add in gameplay functionality
         // for options here
-
-
+        optionBox.setInteractive();
+        optionBox.on('pointerup', function() {
+        newPage = this.option.nextPage;
+        if(newPage != undefined) {
+            destroyPage();
+            displayPage(scene, fetchPage(newPage))
+        }
+        }, { option });
+        
+        gameState.options.push({
+        optionBox,
+        optionText
+        });
     }
+}
+
+function create() {
+    gameState.background = this.add.image(0, 0, 'bg');
+    gameState.background.setOrigin(0, 0);
+    renderCharacter(this, 'knight');
+    initializePage(this);
+    const firstPage = fetchPage(1);
+    displayPage(this, firstPage);
 }
 
 const config = {
